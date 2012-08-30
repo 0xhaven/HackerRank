@@ -4,23 +4,32 @@ strToIntList s = fmap read $ words s
 strToInt :: String -> Int
 strToInt s = read s
 
-other player
-    | player == 1 = 2
-    | player == 2 = 1
-    | otherwise = player
+dist :: Int -> Int -> Int
+dist player pos
+	| player == 1 = pos 
+	| otherwise = 10-pos
 
-runGame player pos first s
-    --logic here
-    | player == 1 = "10"
-    | player == 2 = "10"
-    | otherwise = "Rest"
+
+money :: Int -> [Int] -> [Int] -> Int
+money player first second
+	| player == 1 = 100 - sum first
+	| otherwise = 100 - sum second
+
+other :: Int -> Int
+other player
+	| player == 1 = 2
+	| otherwise = 1
+
+runGame :: Int -> Int -> [Int] -> [Int] -> Int
+runGame player pos first second =
+	div (money player first second) (dist player pos)
 
 main :: IO()
 main = do
-    -- Take input
-    player <- getLine
-    pos <- getLine
-    firstMoves <- getLine
-    secondMoves <- getLine
-    putStrLn $ runGame (strToInt player) (strToInt pos) (strToIntList firstMoves) (strToIntList secondMoves)
+	-- Take input
+	player <- getLine
+	pos <- getLine
+	firstMoves <- getLine
+	secondMoves <- getLine
+	putStrLn $ show $ runGame (strToInt player) (strToInt pos) (strToIntList firstMoves) (strToIntList secondMoves)
 
